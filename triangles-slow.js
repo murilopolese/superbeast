@@ -1,0 +1,49 @@
+let font, slider1, slider2, slider3
+
+function preload() {
+  font = loadFont('AvenirNextLTPro-Demi.otf');
+}
+
+function setup() {
+	frameRate(30)
+  createCanvas(600, 400);
+	slider1 = createSlider(0, 2, 1, 0.1)
+}
+
+function draw() {
+  background(0)
+	fill('#35fdb2')
+	stroke('#35fdb2')
+
+	text(`${mouseX} ${mouseY}`, 10, 10)
+
+  let points = font.textToPoints('g', 300, 300, 410, {
+		sampleFactor: 0.25
+	})
+  let smaller_points = font.textToPoints('g', 315, 290, 400, {
+		sampleFactor: 0.25
+	})
+
+	beginShape()
+	for (let i = 1; i < points.length; i++) {
+		if (i % 2 == 0) {
+			let point = points[i%points.length]
+			vertex(
+				point.x + // Original point
+				2.5 + (5 * Math.sin(radians( (i*17) + (millis()/20) ))) * // Amplitude
+				Math.sin(radians( (i*20) + (millis()/(slider1.value()*20)) )) // Frequency
+				,
+				point.y + // Original point
+				2.5 + (5 * Math.sin(radians( (i*17) + (millis()/20) ))) * // Amplitude
+				Math.sin(radians( (i*20) + (millis()/(slider1.value()*20)) )) // Frequency
+			)
+		} else {
+			let point = smaller_points[i%smaller_points.length]
+			vertex(
+				point.x,
+				point.y
+			)
+		}
+	}
+	endShape()
+}

@@ -1,0 +1,25 @@
+body {
+	background: black;
+	margin: 0;
+	width: 700px;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+	color: #35fdb2;
+	font-family: monospace;
+	font-size: 20px;
+}
+
+a:link, a:visited, a:active, a:hover {
+	color: inherit;
+}
+
+canvas {
+	display: block;
+}
+input {
+	width: 100%;
+}
