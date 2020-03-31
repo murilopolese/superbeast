@@ -2,10 +2,12 @@
   "name": "fabulous-beast",
   "version": "1.0.0",
   "description": "",
-  "main": "interaction-dist.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "http-server"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^0.12.1"
+  }
 }
