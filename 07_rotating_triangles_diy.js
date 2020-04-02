@@ -8,7 +8,8 @@ let triangles = []
 
 function preload() {
 	img = loadImage('logo_spikeless.png')
-	json = loadJSON('triangles.json')
+	// img = loadImage('beast.png')
+	// json = loadJSON('triangles.json')
 }
 
 function setup() {
@@ -85,7 +86,6 @@ function draw() {
 }
 
 function mouseClicked() {
-	return;
 	if (mouseX > width || mouseX < 0 || mouseY > height || mouseY < 0) {
 		return
 	}
@@ -102,12 +102,9 @@ function mouseClicked() {
 }
 
 function saveTriangles(triangles) {
-	localStorage.setItem(
-		'triangles',
-		JSON.stringify(
-			triangles.map(
+	saveJSON({
+			triangles: triangles.map(
 				points => points.map(p => ({ x: p.x, y: p.y }))
 			)
-		)
-	)
+	}, 'triangles.json')
 }
