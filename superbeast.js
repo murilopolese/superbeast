@@ -67,11 +67,15 @@ function draw() {
 	)
 	scale(ratio)
 	image(img, 0, 0)
-	spikes.forEach(spike => spike.update())
-	spikes.forEach(spike => spike.draw())
+	spikes.forEach((spike) => {
+		spike.update()
+		spike.draw()
+	})
 }
 
 function drawBackground() {
-	particles.forEach(particle => particle.update())
-	particles.forEach(particle => particle.draw())
+	particles.forEach((particle) => {
+		particle.update()
+		particle.draw()
+	})
 }

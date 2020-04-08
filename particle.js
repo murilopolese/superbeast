@@ -14,7 +14,7 @@ function Particle(x, y, size, color) {
 	this.draw = function() {
 		fill(this.color)
 		ellipse(
-			this.position.x%width, this.position.y%height,
+			(width+this.position.x)%width, (height+this.position.y)%height,
 			this.size, this.size
 		)
 	}
