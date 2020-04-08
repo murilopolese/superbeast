@@ -1,4 +1,6 @@
-let img, json = {}, spikes = [], particles = [], cursor // Data
+let img, json = {},
+	spikes = [], particles = [], floating = [],
+	cursor // Data
 let container // HTML Element container
 let baseX = 1800, baseY = 550 // Size of original file
 let paddingX, paddingY
@@ -25,6 +27,14 @@ function preload() {
 	json = loadJSON('triangles(1).json')
 }
 
+function getRandomColor() {
+	let colorNames = Object.keys(palette)
+	let colorName = colorNames[
+		parseInt( random(0, colorNames.length) )
+	]
+	return palette[colorName]
+}
+
 function setup() {
 	palette = {
 		yellow: color('#fdfa38'),
@@ -40,15 +50,19 @@ function setup() {
 	const triangles = json.triangles || []
 	spikes = triangles.map((triangle, i) => new Spike(triangle, i))
 	cursor = createVector(0, 0)
-	let colorNames = Object.keys(palette)
 	for (let i = 0; i < height/10; i++) {
-		let colorName = colorNames[
-			parseInt( random(0, colorNames.length) )
-		]
 		particles.push(
 			new Particle(
 				random(0, width), random(0, height),
-				random(2, 7), palette[colorName]
+				random(2, 7), getRandomColor()
+			)
+		)
+	}
+	for (let i = 0; i < 10; i++) {
+		floating.push(
+			new Triangle(
+				random(0, width), random(0, height),
+				random(15, 55), getRandomColor()
 			)
 		)
 	}
@@ -77,5 +91,9 @@ function drawBackground() {
 	particles.forEach((particle) => {
 		particle.update()
 		particle.draw()
+	})
+	floating.forEach((triangle) => {
+		triangle.update()
+		triangle.draw()
 	})
 }
