@@ -1,7 +1,24 @@
-let img, json = {}
-let baseX = 1800, baseY = 550, targetX = 900, ratio
-let spikes = []
-let cursor, energy
+let img, json = {}, spikes = [], particles = [], cursor // Data
+let container // HTML Element container
+let baseX = 1800, baseY = 550 // Size of original file
+let paddingX, paddingY
+// Desired final width
+let targetX = 700
+let ratio = targetX / baseX
+let targetY = baseY*ratio
+
+let palette
+
+function calculatePadding() {
+	// Calculate padding to center logo
+	paddingX = abs((windowWidth/2)-(targetX/2))
+	paddingY = abs((windowHeight/2)-(targetY/2))
+}
+
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
+	calculatePadding()
+}
 
 function preload() {
 	img = loadImage('beast_spikeless.png')
@@ -9,38 +26,52 @@ function preload() {
 }
 
 function setup() {
-	// Calculate shink ratio
-	ratio = targetX / baseX
-	angleMode(DEGREES)
-	ellipseMode(CENTER)
-	createCanvas(targetX, baseY*ratio)
-	stroke('#35fdb2')
-	fill('#35fdb2')
-	strokeWeight(2)
+	palette = {
+		yellow: color('#fdfa38'),
+		green: color('#35fab1'),
+		pink: color('#fa28f7')
+	}
+	calculatePadding()
+	// Put canvas inside container
+	container = document.querySelector('#beastlogo')
+	const canvas = createCanvas( windowWidth, windowHeight )
+	canvas.parent(container)
+	// Load / Init data
 	const triangles = json.triangles || []
 	spikes = triangles.map((triangle, i) => new Spike(triangle, i))
-	cursor = createVector(
-		width/2, height/2
-	)
+	cursor = createVector(0, 0)
+	let colorNames = Object.keys(palette)
+	for (let i = 0; i < height/10; i++) {
+		let colorName = colorNames[
+			parseInt( random(0, colorNames.length) )
+		]
+		particles.push(
+			new Particle(
+				random(0, width), random(0, height),
+				random(2, 7), palette[colorName]
+			)
+		)
+	}
+	// Processing settings
+	angleMode(DEGREES)
+	ellipseMode(CENTER)
 }
 
 function draw() {
-	energy += (pmouseX - mouseX + pmouseY - mouseY) * 20
+	clear()
+	drawBackground()
+	translate(paddingX, paddingY)
 	cursor = createVector(
-		lerp(cursor.x, mouseX/ratio, 0.35),
-		lerp(cursor.y, mouseY/ratio, 0.35)
+		lerp(cursor.x, mouseX-paddingX, 0.35),
+		lerp(cursor.y, mouseY-paddingY, 0.35)
 	)
-	background(0)
-	push()
 	scale(ratio)
 	image(img, 0, 0)
 	spikes.forEach(spike => spike.update())
 	spikes.forEach(spike => spike.draw())
-	pop()
-	ellipse(
-		map(cursor.x, 0, width/ratio, 0, width),
-		map(cursor.y, 0, height/ratio, 0, height),
-		2, 2
-	)
-	line(mouseX, mouseY, pmouseX, pmouseY);
+}
+
+function drawBackground() {
+	particles.forEach(particle => particle.update())
+	particles.forEach(particle => particle.draw())
 }
