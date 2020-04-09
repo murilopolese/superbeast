@@ -34,27 +34,29 @@ function Spike(points, index) {
 			1, 0.05 // Normalise and invert proportionality avoiding zeros
 		)
 		// Play 2 different "animations"
-		if (d > 0.7) { // Fast
 			this.angle =
-			d * (
-				( this.maxAngle/2 ) + ( this.maxAngle * sin( (this.index*40) + millis() ) )
+			(
+				d * (
+					( this.maxAngle/2 ) + ( this.maxAngle * sin( (this.index*40) + millis() ) )
+				)
 			)
-		} else { // Slow
-			this.angle = ( this.maxAngle/2 ) + ( this.maxAngle * sin( (this.index*40) + millis()/8 ) )
-		}
-		// Also grow
+			+
+			(
+				(1-d) *
+				( this.maxAngle/2 ) + ( this.maxAngle * sin( (this.index*40) + millis()/8 ) )
+			)
 		this.size = map(d, 0, 1, 0.9, 2.5)
 	}
 
 	this.draw = function() {
+		let spike = this.spike.copy().mult(this.size)
+		spike.rotate(-this.angle)
 		push()
+		translate(this.axis.x, this.axis.y)
+		// rotate(-this.angle)
+		strokeWeight(2)
 		stroke(palette.green)
 		fill(palette.green)
-		strokeWeight(2)
-		translate(this.axis.x, this.axis.y)
-		rotate(-this.angle)
-		let spike = this.spike.copy()
-		spike.mult(this.size)
 		triangle(
 			0, 0, // Axis
 			spike.x, spike.y,
