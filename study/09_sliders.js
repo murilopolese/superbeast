@@ -64,8 +64,8 @@ function draw() {
 		)
 	} else {
 		cursor = createVector(
-			(width*0.5+width*0.35*sin(millis()/18))-paddingX,
-			(height*0.5+height*0.1*cos(millis()/20))-paddingY
+			lerp(cursor.x, (width*0.5+width*0.35*sin(millis()/18))-paddingX, 0.1),
+			lerp(cursor.x, (height*0.5+height*0.1*cos(millis()/20))-paddingY 0.1)
 		)
 	}
 
