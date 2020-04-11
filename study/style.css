@@ -5,12 +5,17 @@ body {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	flex-grow: 1;
 	justify-content: center;
 	align-items: center;
 	margin: 0 auto;
 	color: #35fdb2;
 	font-family: monospace;
 	font-size: 20px;
+}
+
+h1 {
+	text-align: center;
 }
 
 a:link, a:visited, a:active, a:hover {

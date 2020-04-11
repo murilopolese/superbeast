@@ -1,4 +1,4 @@
-let img, json = {},
+let canvas, img, json = {},
 	spikes = [], particles = [], floating = [],
 	cursor, moving = 0 // Data
 let container // HTML Element container
@@ -24,7 +24,7 @@ function windowResized() {
 
 function preload() {
 	img = loadImage('beast_spikeless.png')
-	json = loadJSON('triangles(1).json')
+	json = loadJSON('data.json')
 }
 
 function setup() {
@@ -36,7 +36,7 @@ function setup() {
 	calculatePadding()
 	// Put canvas inside container
 	container = document.querySelector('#beastlogo')
-	const canvas = createCanvas( windowWidth, windowHeight )
+	canvas = createCanvas( windowWidth, windowHeight )
 	canvas.parent(container)
 	// Load / Init data
 	const triangles = json.triangles || []
@@ -45,12 +45,14 @@ function setup() {
 	createParticles()
 	createTriangles()
 	// Processing settings
+	frameRate(30)
 	angleMode(DEGREES)
 	ellipseMode(CENTER)
 }
 
 function draw() {
-	clear()
+	// clear()
+	background(0)
 	drawBackground()
 	if (width < targetX) return
 	translate(paddingX, paddingY)

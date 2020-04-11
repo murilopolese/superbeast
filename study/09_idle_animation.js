@@ -1,4 +1,4 @@
-let img, json = {},
+let canvas, img, json = {},
 	spikes = [], particles = [], floating = [],
 	cursor, moving = 0 // Data
 let container // HTML Element container
@@ -10,6 +10,8 @@ let ratio = targetX / baseX
 let targetY = baseY*ratio
 
 let palette
+let savingFrames = 0 // how many frames to save
+let saveButton, saveInput
 
 function calculatePadding() {
 	// Calculate padding to center logo
@@ -24,7 +26,7 @@ function windowResized() {
 
 function preload() {
 	img = loadImage('beast_spikeless.png')
-	json = loadJSON('triangles(1).json')
+	json = loadJSON('data.json')
 }
 
 function setup() {
@@ -36,7 +38,7 @@ function setup() {
 	calculatePadding()
 	// Put canvas inside container
 	container = document.querySelector('#beastlogo')
-	const canvas = createCanvas( windowWidth, windowHeight )
+	canvas = createCanvas( windowWidth, windowHeight )
 	canvas.parent(container)
 	// Load / Init data
 	const triangles = json.triangles || []
@@ -45,12 +47,19 @@ function setup() {
 	createParticles()
 	createTriangles()
 	// Processing settings
+	frameRate(30)
 	angleMode(DEGREES)
 	ellipseMode(CENTER)
+	// Buttons
+	saveInput = createP('How many frames to export (30fps)')
+	saveInput = createInput(120)
+	saveButton = createButton('Save frames')
+	saveButton.mouseClicked(exportFrames)
 }
 
 function draw() {
-	clear()
+	// clear()
+	background(0)
 	drawBackground()
 	if (width < targetX) return
 	translate(paddingX, paddingY)
@@ -65,7 +74,7 @@ function draw() {
 	} else {
 		cursor = createVector(
 			lerp(cursor.x, (width*0.5+width*0.35*sin(millis()/18))-paddingX, 0.1),
-			lerp(cursor.x, (height*0.5+height*0.1*cos(millis()/20))-paddingY 0.1)
+			lerp(cursor.y, (height*0.5+height*0.1*cos(millis()/20))-paddingY, 0.1)
 		)
 	}
 
@@ -75,6 +84,11 @@ function draw() {
 		spike.update()
 		spike.draw()
 	})
+
+	if (savingFrames > 0) {
+		saveCanvas(canvas, `frame_${savingFrames}`, 'png');
+		savingFrames--
+	}
 }
 
 function mouseMoved() {
@@ -120,4 +134,8 @@ function getRandomColor() {
 		parseInt( random(0, colorNames.length) )
 	]
 	return palette[colorName]
+}
+
+function exportFrames() {
+	savingFrames = saveInput.value()
 }
