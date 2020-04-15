@@ -23,8 +23,8 @@ function windowResized() {
 }
 
 function preload() {
-	img = loadImage('beast_spikeless.png')
-	json = loadJSON('data.json')
+	img = loadImage('beast_spikeless_sm.png')
+	json = loadJSON('data_sm.json')
 }
 
 function setup() {
@@ -50,8 +50,8 @@ function setup() {
 	ellipseMode(CENTER)
 }
 
+let counter = 0
 function draw() {
-	// clear()
 	background(0)
 	drawBackground()
 	if (width < targetX) return
@@ -71,8 +71,8 @@ function draw() {
 		)
 	}
 
-	scale(ratio)
 	image(img, 0, 0)
+	// scale(ratio)
 	spikes.forEach((spike) => {
 		spike.update()
 		spike.draw()

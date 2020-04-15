@@ -1,6 +1,6 @@
 function Spike(points, index) {
 	this.index = index // this will be the spike's "phase"
-	this.distance = 250 // detection distance
+	this.distance = 120 // detection distance
 	this.maxAngle = 15 // Maximum angle range
 	this.angle = 0
 	this.size = 1
@@ -25,7 +25,7 @@ function Spike(points, index) {
 		let d = map(
 			min( // Never be bigger than max distance
 				dist(
-					cursor.x/ratio, cursor.y/ratio,
+					cursor.x, cursor.y,
 					this.axis.x, this.axis.y // Distance to the "base" of spike
 				),
 				this.distance
@@ -40,12 +40,12 @@ function Spike(points, index) {
 					( this.maxAngle/2 ) + ( this.maxAngle * sin( (this.index*40) + millis() ) )
 				)
 			)
-			+
-			(
-				(1-d) *
-				( this.maxAngle/2 ) + ( this.maxAngle * sin( (this.index*40) + millis()/8 ) )
-			)
-		this.size = map(d, 0, 1, 0.9, 2.5)
+			// +
+			// (
+			// 	(1-d) *
+			// 	( this.maxAngle/2 ) + ( this.maxAngle * sin( (this.index*40) + millis()/8 ) )
+			// )
+		this.size = map(d, 0, 1, 0.4, 2)
 	}
 
 	this.draw = function() {
