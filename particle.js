@@ -1,4 +1,4 @@
-function Particle(x, y, size, color) {
+window.Particle = function(x, y, size, color) {
 	this.position = createVector(x, y)
 	this.size = size
 	this.color = color

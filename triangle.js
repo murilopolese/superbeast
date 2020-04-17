@@ -1,4 +1,4 @@
-function Triangle(x, y, size, color) {
+window.Triangle = function(x, y, size, color) {
 	this.position = createVector(x, y)
 	this.size = size
 	this.color = color

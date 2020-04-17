@@ -1,47 +1,56 @@
-let canvas, img, json = {},
-	spikes = [], particles = [], floating = [],
-	cursor, moving = 0 // Data
-let container // HTML Element container
-let baseX = 1800, baseY = 550 // Size of original file
-let paddingX, paddingY
+window.canvas = null
+window.img = null
+window.spikes = []
+window.particles = []
+window.floating = []
+window.mouseCursor = {}
+window.moving = 0 // Data
+window.container // HTML Element container
+window.baseX = 1800
+window.baseY = 550 // Size of original file
+window.paddingX = null
+window.paddingY = null
 // Desired final width
-let targetX = 700
-let ratio = targetX / baseX
-let targetY = baseY*ratio
+window.targetX = 700
+window.ratio = targetX / baseX
+window.targetY = baseY*ratio
 
-let palette
+window.palette = null
 
-function calculatePadding() {
+window.calculatePadding = function() {
 	// Calculate padding to center logo
-	paddingX = abs((windowWidth/2)-(targetX/2))
-	paddingY = abs((windowHeight/2)-(targetY/2))
+	window.paddingX = abs((windowWidth/2)-(targetX/2))
+	window.paddingY = abs((windowHeight/2)-(targetY/2))
 }
 
-function windowResized() {
+window.windowResized = function() {
 	resizeCanvas(windowWidth, windowHeight);
 	calculatePadding()
 }
 
-function preload() {
-	img = loadImage('beast_spikeless_sm.png')
-	json = loadJSON('data_sm.json')
+window.preload = function() {
+	window.img = loadImage('https://superbeast.s3.eu-north-1.amazonaws.com/beast_spikeless_sm.png')
+	if (!window.json) {
+		window.json = loadJSON('data_sm.json')
+	}
 }
 
-function setup() {
-	palette = {
+window.setup = function() {
+	window.palette = {
 		yellow: color('#fdfa38'),
 		green: color('#35fab1'),
 		pink: color('#fa28f7')
 	}
 	calculatePadding()
 	// Put canvas inside container
-	container = document.querySelector('#beastlogo')
-	canvas = createCanvas( windowWidth, windowHeight )
-	canvas.parent(container)
+	window.container = document.querySelector('#beastlogo')
+	window.container.innerHTML = ''
+	window.canvas = createCanvas( windowWidth, windowHeight )
+	window.canvas.parent(container)
 	// Load / Init data
 	const triangles = json.triangles || []
-	spikes = triangles.map((triangle, i) => new Spike(triangle, i))
-	cursor = createVector(0, 0)
+	window.spikes = triangles.map((triangle, i) => new Spike(triangle, i))
+	window.mouseCursor = createVector(0, 0)
 	createParticles()
 	createTriangles()
 	// Processing settings
@@ -50,8 +59,7 @@ function setup() {
 	ellipseMode(CENTER)
 }
 
-let counter = 0
-function draw() {
+window.draw = function() {
 	background(0)
 	drawBackground()
 	if (width < targetX) return
@@ -60,14 +68,14 @@ function draw() {
 		moving--
 	}
 	if (moving) {
-		cursor = createVector(
-			lerp(cursor.x, mouseX-paddingX, 0.1),
-			lerp(cursor.y, mouseY-paddingY, 0.1)
+		window.mouseCursor = createVector(
+			lerp(mouseCursor.x, mouseX-paddingX, 0.1),
+			lerp(mouseCursor.y, mouseY-paddingY, 0.1)
 		)
 	} else {
-		cursor = createVector(
-			lerp(cursor.x, (width*0.5+width*0.35*sin(millis()/18))-paddingX, 0.1),
-			lerp(cursor.y, (height*0.5+height*0.1*cos(millis()/20))-paddingY, 0.1)
+		window.mouseCursor = createVector(
+			lerp(mouseCursor.x, (width*0.5+width*0.35*sin(millis()/18))-paddingX, 0.1),
+			lerp(mouseCursor.y, (height*0.5+height*0.1*cos(millis()/20))-paddingY, 0.1)
 		)
 	}
 
@@ -79,11 +87,11 @@ function draw() {
 	})
 }
 
-function mouseMoved() {
-	moving = 100
+window.mouseMoved = function() {
+	window.moving = 100
 }
 
-function drawBackground() {
+window.drawBackground = function() {
 	particles.forEach((particle) => {
 		particle.update()
 		particle.draw()
@@ -94,8 +102,8 @@ function drawBackground() {
 	})
 }
 
-function createParticles() {
-	for (let i = 0; i < height/10; i++) {
+window.createParticles = function() {
+	for (let i = 0; i < 25; i++) {
 		particles.push(
 			new Particle(
 				random(0, width), random(0, height),
@@ -105,8 +113,8 @@ function createParticles() {
 	}
 }
 
-function createTriangles() {
-	for (let i = 0; i < 10; i++) {
+window.createTriangles = function() {
+	for (let i = 0; i < 5; i++) {
 		floating.push(
 			new Triangle(
 				random(0, width), random(0, height),
@@ -116,7 +124,7 @@ function createTriangles() {
 	}
 }
 
-function getRandomColor() {
+window.getRandomColor = function() {
 	let colorNames = Object.keys(palette)
 	let colorName = colorNames[
 		parseInt( random(0, colorNames.length) )

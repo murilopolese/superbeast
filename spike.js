@@ -1,4 +1,4 @@
-function Spike(points, index) {
+window.Spike = function(points, index) {
 	this.index = index // this will be the spike's "phase"
 	this.distance = 120 // detection distance
 	this.maxAngle = 15 // Maximum angle range
@@ -25,7 +25,7 @@ function Spike(points, index) {
 		let d = map(
 			min( // Never be bigger than max distance
 				dist(
-					cursor.x, cursor.y,
+					window.mouseCursor.x, window.mouseCursor.y,
 					this.axis.x, this.axis.y // Distance to the "base" of spike
 				),
 				this.distance
