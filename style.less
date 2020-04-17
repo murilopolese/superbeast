@@ -1,0 +1,53 @@
+@loading-size: 100px;
+@ball-size: 5px;
+@animation-length: 2s;
+@yellow: #fdfa38;
+@green: #35fab1;
+@pink: #fa28f7;
+@colors: @yellow, @green, @pink;
+
+
+body {
+	padding: 0;
+	margin: 0;
+	background: black;
+	color: white;
+}
+#beastlogo {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+@keyframes blink {
+	0%   {opacity: 0}
+	20%  {opacity: 1}
+	80%  {opacity: 1}
+	100%  {opacity: 0}
+}
+.loading {
+	width: @loading-size;
+	height: @loading-size;
+	position: relative;
+}
+.ball {
+	width: @ball-size;
+	height: @ball-size;
+	background: white;
+	border-radius: 10px;
+	position: absolute;
+	animation-name: blink;
+	animation-duration: @animation-length;
+	animation-iteration-count: infinite;
+	top: calc(50% - @ball-size/2);
+	left: calc(50% - @ball-size/2);
+}
+
+each(range(12),{
+    .ball-@{value} {
+			background: extract(@colors, 1+mod(@value, 3));
+			animation-delay: @value * (@animation-length/12);
+			transform: rotate(@value * 30deg) translate(0, @loading-size/2);
+		}
+});
