@@ -61,8 +61,8 @@ window.setup = function() {
 
 window.draw = function() {
 	background(0)
-	drawBackground()
 	if (width < targetX) return
+	drawBackground()
 	translate(paddingX, paddingY)
 	if ( moving > 0 ) {
 		moving--
