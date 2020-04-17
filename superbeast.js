@@ -43,10 +43,13 @@ window.setup = function() {
 	}
 	calculatePadding()
 	// Put canvas inside container
+	let loading = document.querySelector('#loading')
 	window.container = document.querySelector('#beastlogo')
 	window.container.innerHTML = ''
 	window.canvas = createCanvas( windowWidth, windowHeight )
 	window.canvas.parent(container)
+	window.container.classList.add('fade-in')
+	loading.classList.add('fade-out')
 	// Load / Init data
 	const triangles = json.triangles || []
 	window.spikes = triangles.map((triangle, i) => new Spike(triangle, i))

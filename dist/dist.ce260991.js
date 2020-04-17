@@ -5153,10 +5153,13 @@ window.setup = function () {
   };
   calculatePadding(); // Put canvas inside container
 
+  var loading = document.querySelector('#loading');
   window.container = document.querySelector('#beastlogo');
   window.container.innerHTML = '';
   window.canvas = createCanvas(windowWidth, windowHeight);
-  window.canvas.parent(container); // Load / Init data
+  window.canvas.parent(container);
+  window.container.classList.add('fade-in');
+  loading.classList.add('fade-out'); // Load / Init data
 
   var triangles = json.triangles || [];
   window.spikes = triangles.map(function (triangle, i) {
@@ -5271,7 +5274,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60374" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60526" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

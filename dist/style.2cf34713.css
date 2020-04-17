@@ -1,16 +1,3 @@
-body {
-  padding: 0;
-  margin: 0;
-  background: black;
-  color: white;
-}
-#beastlogo {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 @keyframes blink {
   0% {
     opacity: 0;
@@ -25,10 +12,56 @@ body {
     opacity: 0;
   }
 }
-.loading {
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+body {
+  padding: 0;
+  margin: 0;
+  background: black;
+  color: white;
+}
+.fullscreen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fade-in {
+  animation-name: fadeIn;
+  animation-duration: 2s;
+}
+.fade-out {
+  animation-name: fadeOut;
+  animation-duration: 2s;
+}
+#loading {
   width: 100px;
   height: 100px;
-  position: relative;
+  position: absolute;
+  top: calc(50% - 100px/2);
+  left: calc(50% - 100px/2);
+  z-index: 1;
+}
+#beastlogo {
+  z-index: 2;
 }
 .ball {
   width: 5px;

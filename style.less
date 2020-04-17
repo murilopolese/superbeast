@@ -6,6 +6,21 @@
 @pink: #fa28f7;
 @colors: @yellow, @green, @pink;
 
+@keyframes blink {
+	0%   {opacity: 0}
+	20%  {opacity: 1}
+	80%  {opacity: 1}
+	100%  {opacity: 0}
+}
+@keyframes fadeIn {
+	0%   {opacity: 0;}
+	100%  {opacity: 1}
+}
+@keyframes fadeOut {
+	0%   {opacity: 0}
+	1%   {opacity: 1}
+	100%  {opacity: 0;}
+}
 
 body {
 	padding: 0;
@@ -13,23 +28,33 @@ body {
 	background: black;
 	color: white;
 }
-#beastlogo {
+.fullscreen {
 	width: 100vw;
 	height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
-@keyframes blink {
-	0%   {opacity: 0}
-	20%  {opacity: 1}
-	80%  {opacity: 1}
-	100%  {opacity: 0}
+
+.fade-in {
+	animation-name: fadeIn;
+	animation-duration: @animation-length;
 }
-.loading {
+.fade-out {
+	animation-name: fadeOut;
+	animation-duration: @animation-length;
+}
+
+#loading {
 	width: @loading-size;
 	height: @loading-size;
-	position: relative;
+	position: absolute;
+	top: calc(50% - @loading-size/2);
+	left: calc(50% - @loading-size/2);
+	z-index: 1;
+}
+#beastlogo {
+	z-index: 2;
 }
 .ball {
 	width: @ball-size;
