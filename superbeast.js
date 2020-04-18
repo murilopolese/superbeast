@@ -64,9 +64,17 @@ window.setup = function() {
 
 window.draw = function() {
 	background(0)
-	if (width < targetX) return
 	drawBackground()
-	translate(paddingX, paddingY)
+	if (width < targetX) {
+		ratio = (width*0.8) / targetX
+		translate(
+			(width/2) - (targetX * ratio / 2),
+			(width/2) - map(width, targetX, 320, 120, height/6)
+		)
+		scale(ratio)
+	} else {
+		translate(paddingX, paddingY)
+	}
 	if ( moving > 0 ) {
 		moving--
 	}
@@ -83,7 +91,6 @@ window.draw = function() {
 	}
 
 	image(img, 0, 0)
-	// scale(ratio)
 	spikes.forEach((spike) => {
 		spike.update()
 		spike.draw()

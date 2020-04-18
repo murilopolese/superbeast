@@ -5176,9 +5176,15 @@ window.setup = function () {
 
 window.draw = function () {
   background(0);
-  if (width < targetX) return;
   drawBackground();
-  translate(paddingX, paddingY);
+
+  if (width < targetX) {
+    ratio = width * 0.8 / targetX;
+    translate(width / 2 - targetX * ratio / 2, width / 2 - map(width, targetX, 320, 120, height / 6));
+    scale(ratio);
+  } else {
+    translate(paddingX, paddingY);
+  }
 
   if (moving > 0) {
     moving--;
@@ -5190,8 +5196,7 @@ window.draw = function () {
     window.mouseCursor = createVector(lerp(mouseCursor.x, width * 0.5 + width * 0.35 * sin(millis() / 18) - paddingX, 0.1), lerp(mouseCursor.y, height * 0.5 + height * 0.1 * cos(millis() / 20) - paddingY, 0.1));
   }
 
-  image(img, 0, 0); // scale(ratio)
-
+  image(img, 0, 0);
   spikes.forEach(function (spike) {
     spike.update();
     spike.draw();
@@ -5274,7 +5279,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60526" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60959" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
